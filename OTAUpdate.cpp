@@ -3,6 +3,11 @@
 #include "OTAUpdate.h"
 #include <TelnetStream.h>
 #include <WiFi.h>
+#include <U8g2lib.h>
+#include "u8g2_functions.h"
+
+//#include "u8g2_instances.cpp"
+
 const char* rootCACertificate = \
   // Your root CA certificate content
   "-----BEGIN CERTIFICATE-----\n" \
@@ -44,6 +49,10 @@ void OTAUpdater::update_progress(int cur, int total) {
   int progress = (cur*100)/total;
   if(progress>latestProgress){
     latestProgress =progress;
+    
+    u8g2Functions.updatePage(progress);
+
+    
   Serial.printf("Downloading firmware: %d%%\n", progress);
   TelnetStream.print("Downloading firmare: ");
   TelnetStream.print(progress);
